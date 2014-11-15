@@ -99,7 +99,7 @@ aliases_cb(const char *name, PurplePrefType type, gconstpointer val, gpointer da
  */
 static void
 init_prefs(PurplePlugin *plugin) {
-    char *aliases;
+    const char *aliases;
     if (!purple_prefs_exists(PREFS_ROOT)) {
         purple_prefs_add_none(PREFS_ROOT) ;
     }
