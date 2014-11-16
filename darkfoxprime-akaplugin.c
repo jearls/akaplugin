@@ -74,11 +74,13 @@ aliases_changed_cb(const char *name, PurplePrefType type, gconstpointer val, gpo
      *  At the end of the scan, if start is not NULL, add the lowercased
      *  version of the final substring to aliases_list.
      */
-    scan = (gchar*) val ;
     start = end = (gchar*) NULL ;
     /*  scan through the string  */
-    for (   scan = (gchar*) val ;
+    for (   /* start at beginning of string */
+            scan = (gchar*) val ;
+            /* continue while we're not at a null character */
             ((this = g_utf8_get_char(scan)) != 0) ;
+            /* advance to the next character each iteration */
             scan = g_utf8_next_char(scan)
      ) {
         /*  skip spaces  */
@@ -99,9 +101,8 @@ aliases_changed_cb(const char *name, PurplePrefType type, gconstpointer val, gpo
                      */
                     aliases_list = g_slist_prepend( aliases_list, g_utf8_strdown( start, sublen ) ) ;
                     purple_debug_info(PLUGIN_ID, "AKA Plugin found %d byte alias \"%s\".\n", (int)sublen, (gchar*)(aliases_list->data)) ;
-                    /*  reset start and sublen for next substring  */
-                    start = (gchar*)NULL ;
-                    sublen = 0 ;
+                    /*  reset start and end for next substring  */
+                    start = end = (gchar*)NULL ;
                 }
             } else {
                 /*  not a separator, update start and end appropriately  */
@@ -144,26 +145,29 @@ find_utf8_substr(gchar *str, gchar *substr) {
     gchar* substr_key = g_utf8_collate_key(substr, -1) ;
     /*  record the length of substr, in bytes, for comparison.  do this by finding the length, in utf8 characters, converting that to a pointer, then using pointer arithmetic to find the byte length.  */
     gssize len = g_utf8_offset_to_pointer(substr, g_utf8_strlen(substr, -1)) - substr ;
-    /*  find the first occurrence of 'first'  */
-    str = g_utf8_strchr(str, -1, first) ;
-    /*  as long as we have not run out of string to check,
-     *  and we are not pointing at an occurrence of substr,
-     *  continue scanning
-     */
-    while (str != NULL) {
+    /*  scan the string looking for 'first'  */
+    for (
+            /*  start at the first occurrence of 'first'  */
+            str = g_utf8_strchr(str, -1, first) ;
+            /*  continue as long as 'first' was found  */
+            str != NULL ;
+            /*  for the next iteration, advance to the next occurrence
+             *  of 'first'
+             */
+            str = g_utf8_strchr(g_utf8_next_char(str), -1, first)
+    ) {
         /*  compute the collation key for the 'len'-length
          *  substring located at 'str'
          */
         gchar* this_key = g_utf8_collate_key(str, len) ;
-        /*  get our comparison value, then free the key  */
+        /*  get our comparison value  */
         int  this_comp = strcmp(substr_key, this_key) ;
+        /*  free the collation key  */
         g_free(this_key) ;
         /*  if comparison was 0 (equal), break out of the scan loop  */
         if (this_comp == 0) {
-            break ; /* out of while (str != NULL) loop */
+            break ; /* out of for(...) loop */
         }
-        /*  move str to the next occurrence of 'first'  */
-        str = g_utf8_strchr(g_utf8_next_char(str), -1, first) ;
     }
     /*  free up the collation key  */
     g_free(substr_key) ;
