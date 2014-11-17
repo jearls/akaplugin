@@ -51,7 +51,9 @@ aliases_changed_cb(const char *name, PurplePrefType type, gconstpointer val, gpo
     gchar *scan, *start, *end ;
     /*  the character we're scanning  */
     gunichar this ;
-    /*  destroy the current aliases_list, if any  */
+    /*  destroy the current aliases_list (if any)
+     *  so that it can be rebuilt.
+     */
     if (aliases_list != NULL) {
         /*  the alias pointer to scan the list  */
         GSList *alias_ptr = aliases_list ;
