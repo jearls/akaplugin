@@ -15,7 +15,7 @@
 
 /*  define my plugin parameters  */
 
-#define PLUGIN_ID "core-jme-akaplugin"
+#define PLUGIN_ID "core-jearls-akaplugin"
 #define PLUGIN_NAME "AKA Plugin"
 #define PLUGIN_VERSION "0.2"
 #define PLUGIN_AUTHOR "Johnson Earls"
