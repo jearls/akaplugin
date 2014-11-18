@@ -19,7 +19,7 @@
 #define PLUGIN_NAME "AKA Plugin"
 #define PLUGIN_VERSION "0.2"
 #define PLUGIN_AUTHOR "Johnson Earls"
-#define PLUGIN_URL "https://github.com/darkfoxprime/akaplugin/wiki"
+#define PLUGIN_URL "https://github.com/jearls/akaplugin/wiki"
 #define PLUGIN_SUMMARY "Recognize aliases said in chats as also being you."
 #define PLUGIN_DESCRIPTION "This plugin listens for chat messages and, when a message contains any of the aliases configured in its preferences, marks the message as being said to you."
 
