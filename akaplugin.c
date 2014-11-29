@@ -5,13 +5,13 @@
 
 /*  purple plugin include files  */
 
-#include "debug.h"
-#include "conversation.h"
-#include "signals.h"
-#include "plugin.h"
-#include "pluginpref.h"
-#include "prefs.h"
-#include "version.h"
+#include <libpurple/debug.h>
+#include <libpurple/conversation.h>
+#include <libpurple/signals.h>
+#include <libpurple/plugin.h>
+#include <libpurple/pluginpref.h>
+#include <libpurple/prefs.h>
+#include <libpurple/version.h>
 
 /*  define my plugin parameters  */
 
